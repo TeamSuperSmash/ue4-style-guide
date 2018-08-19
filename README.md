@@ -1,32 +1,12 @@
-# [Gamemakin](https://gamemak.in) UE4 Style Guide() {
+# UE4 Style Guide() {
 
 *A mostly reasonable approach to Unreal Engine 4*
 
 Heavily inspired by the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript).
 
-[![Analytics](https://ga-beacon.appspot.com/UA-80567399-1/repo?useReferrer)](#) ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
+## Disclaimer
 
-## Unreal Engine 4 Linter Plugin
-
-An automated method of checking your project against this style guide is available for purchase at [the Unreal Engine marketplace](https://www.unrealengine.com/marketplace/linter). This plugin's source code will eventually be free, but in order to use with UE4 without building the engine from source code, please use the marketplace version.
-
-## Discuss This Style Guide
-
-Gamemakin LLC has a public Discord channel at http://discord.gamemak.in with a #linter channel if you'd like to discuss all things style guide and Linter plugin.
-
-## Linking To This Document
-
-Every section of this style guide is numbered for both easy reference and easy linking. You can link to any section directly by simply append a hash tag and the section number to the end of http://ue4.style
-For example, if you want to send someone to the first principle of this style guide you would append `#0.1`, resulting in http://ue4.style#0.1.
-
-## Forks And Translations
-
-If you have made a notable fork or translation that is not suitable for a pull request into this repo, please submit a pull request to add the fork or translation here.
-
-* [Korean Translation](https://github.com/ymkim50/ue4-style-guide/blob/master/README_Kor.md) by ymkim50
-* [Russian Translation](https://github.com/CosmoMyzrailGorynych/ue4-style-guide-rus/blob/master/README.md) by CosmoMyzrailGorynych
-* [Japanese Translation](https://github.com/akenatsu/ue4-style-guide/blob/master/README.jp.md) by akenatsu
-* [Chinese Translation](https://github.com/skylens-inc/ue4-style-guide/blob/master/README.md) by Beijing Skylens Tech.
+This style guide is forked from [Gamemakin](https://github.com/Allar/ue4-style-guide) and modified with persoanl requirements for team usage.
 
 ## Important Terminology
 
@@ -221,7 +201,7 @@ When naming an asset use these tables to determine the prefix and suffix to use 
 | Level (Gameplay)        |            | _Gameplay  |                                  |
 | Blueprint               | BP_        |            |                                  |
 | Material                | M_         |            |                                  |
-| Static Mesh             | S_         |            | Many use SM_. We use S_.         |
+| Static Mesh             | SM_        |            |                                  |
 | Skeletal Mesh           | SK_        |            |                                  |
 | Texture                 | T_         | _?         | See [Textures](#anc-textures)    |
 | Particle System         | PS_        |            |                                  |
@@ -275,7 +255,7 @@ When naming an asset use these tables to determine the prefix and suffix to use 
 | Blueprint Interface     | BPI_       |            |                                  |
 | Blueprint Macro Library | BPML_      |            | Do not use macro libraries if possible. |
 | Enumeration             | E          |            | No underscore.                   |
-| Structure               | F or S     |            | No underscore.                   |
+| Structure (Struct)      | F or S     |            | No underscore.                   |
 | Tutorial Blueprint      | TBP_       |            |                                  |
 | Widget Blueprint        | WBP_       |            |                                  |
 
@@ -427,25 +407,21 @@ There are multiple ways to lay out the content of a UE4 project. In this style, 
 ### 2e1 Example Project Content Structure
 <pre>
 |-- Content
-    |-- <a href="#2.2">GenericShooter</a>
+    |-- <a href="#2.2">ProjectX</a>
         |-- Art
-        |   |-- Industrial
+        |   |-- Common
         |   |   |-- Ambient
-        |   |   |-- Machinery
-        |   |   |-- Pipes
-        |   |-- Nature
+        |   |-- Mansion
         |   |   |-- Ambient
-        |   |   |-- Foliage
-        |   |   |-- Rocks
-        |   |   |-- Trees
-        |   |-- Office
+        |   |   |-- Props
+        |   |   |-- Furnitures
+        |-- Audio
         |-- Characters
-        |   |-- Bob
         |   |-- Common
         |   |   |-- <a href="#2.7">Animations</a>
         |   |   |-- Audio
-        |   |-- Jack
-        |   |-- Steve
+        |   |-- Monster
+        |   |-- Player
         |   |-- <a href="#2.1.3">Zoe</a>
         |-- <a href="#2.5">Core</a>
         |   |-- Characters
@@ -455,26 +431,34 @@ There are multiple ways to lay out the content of a UE4 project. In this style, 
         |   |-- Pickups
         |   |-- Weapons
         |-- Effects
-        |   |-- Electrical
         |   |-- Fire
-        |   |-- Weather
+        |   |-- Fog
+        |   |-- Portal
         |-- <a href="#2.4">Maps</a>
-        |   |-- Campaign1
-        |   |-- Campaign2
+        |   |-- MainMenu
+        |   |-- Mansion
+        |   |   |-- Mansion
+        |   |   |-- Sublevels
+        |   |   |   |-- Mansion_Art
+        |   |   |   |-- Mansion_Lighting
+        |   |   |   |-- Mansion_Sound
+        |   |   |   |-- Mansion_UI
+        |   |   |   |-- ...
         |-- <a href="#2.8">MaterialLibrary</a>
         |   |-- Debug
         |   |-- Metal
         |   |-- Paint
         |   |-- Utility
         |   |-- Weathering
+        |   |-- Wood
         |-- Placeables
-        |   |-- Pickups
-        |-- Weapons
+        |   |-- Items
+        |   |-- PuzzleProps
+        |-- Items
             |-- Common
-            |-- Pistols
-            |   |-- DesertEagle
-            |   |-- RocketPistol
-            |-- Rifles
+            |-- Lighter
+            |-- Candlestick
+            |-- MusicBox
 </pre>
 
 The reasons for this structure are listed in the following sub-sections.
@@ -529,7 +513,7 @@ Using other characters outside `a-z`, `A-Z`, and `0-9` such as `@`, `-`, `_`, `,
 <a name="structure-top-level"><a>
 ### 2.2 Use A Top Level Folder For Project Specific Assets ![#](https://img.shields.io/badge/lint-supported-green.svg)
 
-All of a project's assets should exist in a folder named after the project. For example, if your project is named 'Generic Shooter', _all_ of it's content should exist in `Content/GenericShooter`.
+All of a project's assets should exist in a folder named after the project. For example, if your project is named 'Project X', _all_ of it's content should exist in `Content/ProjectX`.
 
 > The `Developers` folder is not for assets that your project relies on and therefore is not project specific. See [Developer Folders](#2.3) for details about this.
 
@@ -1311,32 +1295,6 @@ It is normal during development for levels to occasionaly not have lighting buil
 
 Levels should not have any [z-fighting](https://en.wikipedia.org/wiki/Z-fighting) in all areas visible to the player. 
 
-<a name="6.4"></a>
-<a name="levels-mp-rules"></a>
-### 6.4 Marketplace Specific Rules ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
-
-If a project is to be sold on the UE4 Marketplace, it must follow these rules.
-
-<a name="6.4.1"></a>
-<a name="levels-mp-rules-overview"></a>
-### 6.4.1 Overview Level ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
-
-If your project contains assets that should be visualized or demoed, you must have a map within your project that contains the name "Overview".
-
-This overview map, if it is visualizing assets, should be set up according to [Epic's guidelines](http://help.epicgames.com/customer/en/portal/articles/2592186-marketplace-submission-guidelines-preparing-your-assets#Required%20Levels%20and%20Maps).
-
-For example, `InteractionComponent_Overview`.
-
-<a name="6.4.2"></a>
-<a name="levels-mp-rules-demo"></a>
-### 6.4.2 Demo Level ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
-
-If your project contains assets that should be demoed or come with some sort of tutorial, you must have a map within your project that contains the name "Demo". This level should also contain documentation within it in some form that illustrates how to use your project. See Epic's Content Examples project for good examples on how to do this.
-
-If your project is a gameplay mechanic or other form of system as opposed to an art pack, this can be the same as your "Overview" map.
-
-For example, `InteractionComponent_Overview_Demo`, `ExplosionKit_Demo`.
-
 **[⬆ Back to Top](#table-of-contents)**
 
 
@@ -1385,14 +1343,6 @@ No texture should have a dimension that exceeds 8192 in size, unless you have a 
 Every texture has a Texture Group property used for LODing, and this should be set correctly based on its use. For example, all UI textures should belong in the UI texture group.
 
 **[⬆ Back to Top](#table-of-contents)**
-
-
-## Contributors
-
-* [Michael Allar](http://allarsblog.com): [GitHub](https://github.com/Allar), [Twitter](https://twitter.com/michaelallar)
-* [CosmoMyzrailGorynych](https://github.com/CosmoMyzrailGorynych)
-* [billymcguffin](https://github.com/billymcguffin)
-* [akenatsu](https://github.com/akenatsu)
 
 ## License
 
