@@ -611,7 +611,7 @@ All asset names are named with their asset type in mind. These folders offer onl
 
 Want to view only static mesh in `Environment/Rocks/`? Simply turn on the Static Mesh filter. If all assets are named correctly, they will also be sorted in alphabetical order regardless of prefixes. Want to view both static meshes and skeletal meshes? Simply turn on both filters. this eliminates the need to potentially have to `Control-Click` select two folders in the Content Browser's tree view.
 
-> This also extends the full path name of an asset for very little benefit. The `S_` prefix for a static mesh is only two characters, whereas `Meshes/` is seven characters.
+> This also extends the full path name of an asset for very little benefit. The `SM_` prefix for a static mesh is only three characters, whereas `Meshes/` is seven characters.
 
 Not doing this also prevents the inevitability of someone putting a static mesh or a texture in a `Materials` folder.
 
