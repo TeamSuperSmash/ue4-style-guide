@@ -284,7 +284,7 @@ When naming an asset use these tables to determine the prefix and suffix to use 
 | Texture (Normal)        | T_         | _N         |                                  |
 | Texture (Roughness)     | T_         | _R         |                                  |
 | Texture (Alpha/Opacity) | T_         | _A         |                                  |
-| Texture (Ambient Occlusion) | T_     | _O         |                                  |
+| Texture (Ambient Occlusion) | T_     | _AO        |                                  |
 | Texture (Bump)          | T_         | _B         |                                  |
 | Texture (Emissive)      | T_         | _E         |                                  |
 | Texture (Metallic)      | T_         | _M         |                                  |
